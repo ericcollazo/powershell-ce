@@ -12,7 +12,13 @@ docker-machine ssh manager-0 docker swarm init --advertise-addr $manager0ip
 # Get join tokens
 $managerJoinToken = docker-machine ssh manager-0 docker swarm join-token manager -q
 $workerJoinToken = docker-machine ssh manager-0 docker swarm join-token worker -q
-$joinIp = $manager0ip + ":2377"
+$swarmPort = "2377"
+$joinIp = $manager0ip + ":" + $swarmPort
+$ucpUsr = "admin"
+$ucpPwd = "adminadmin"
+$ucpPort = "2378"
+# Install UCP
+docker-machine ssh manager-0 docker container run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.4 install --host-address $manager0ip --admin-username $ucpUsr --admin-password $ucpPwd --swarm-port $ucpPort
 
 # manager-1
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken manager-1
