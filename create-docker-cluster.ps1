@@ -1,3 +1,4 @@
+# Load variables file into $values
 $Path = ".\variables.txt"
 $values = Get-Content $Path | Out-String | ConvertFrom-StringData
 
@@ -39,6 +40,16 @@ docker-machine ssh worker-1 docker swarm join --token $workerJoinToken $joinIp
 # worker-2
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken worker-2
 docker-machine ssh worker-2 docker swarm join --token $workerJoinToken $joinIp
+
+# Install DTR
+docker-machine ssh worker-0 docker pull docker/dtr:2.4.1
+docker-machine ssh worker-0 docker run -it --rm docker/dtr:2.4.1 install --ucp-node worker-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
+
+docker-machine ssh worker-1 docker pull docker/dtr:2.4.1
+docker-machine ssh worker-1 docker run -it --rm docker/dtr:2.4.1 join --ucp-node worker-0 --ucp-insecure-tls
+
+docker-machine ssh worker-2 docker pull docker/dtr:2.4.1
+docker-machine ssh worker-2 docker run -it --rm docker/dtr:2.4.1 join --ucp-node worker-0 --ucp-insecure-tls
 
 # List nodes in swarm
 docker-machine ssh manager-0 docker node ls
