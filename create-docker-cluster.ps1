@@ -21,14 +21,6 @@ $ucpPort = "2378"
 # Install UCP
 docker-machine ssh manager-0 docker container run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.4 install --host-address $manager0ip --admin-username $ucpUsr --admin-password $ucpPwd --swarm-port $ucpPort
 
-# manager-1
-docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken manager-1
-docker-machine ssh manager-1 docker swarm join --token $managerJoinToken $joinIp
-
-#manager-2
-docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken manager-2
-docker-machine ssh manager-2 docker swarm join --token $managerJoinToken $joinIp
-
 # worker-0
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken worker-0
 docker-machine ssh worker-0 docker swarm join --token $workerJoinToken $joinIp
@@ -41,15 +33,14 @@ docker-machine ssh worker-1 docker swarm join --token $workerJoinToken $joinIp
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken worker-2
 docker-machine ssh worker-2 docker swarm join --token $workerJoinToken $joinIp
 
+# dtr-0
+docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken dtr-0
+docker-machine ssh dtr-0 docker swarm join --token $workerJoinToken $joinIp
+docker node update --availability drain dtr-0
+
 # Install DTR
-docker-machine ssh worker-0 docker pull docker/dtr:2.4.1
-docker-machine ssh worker-0 docker run -it --rm docker/dtr:2.4.1 install --ucp-node worker-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
-
-docker-machine ssh worker-1 docker pull docker/dtr:2.4.1
-docker-machine ssh worker-1 docker run -it --rm docker/dtr:2.4.1 join --ucp-node worker-0 --ucp-insecure-tls
-
-docker-machine ssh worker-2 docker pull docker/dtr:2.4.1
-docker-machine ssh worker-2 docker run -it --rm docker/dtr:2.4.1 join --ucp-node worker-0 --ucp-insecure-tls
+docker-machine ssh dtr-0 docker pull docker/dtr:2.4.1
+docker-machine ssh dtr-0 docker run -it --rm docker/dtr:2.4.1 install --ucp-node worker-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
 
 # List nodes in swarm
 docker-machine ssh manager-0 docker node ls
