@@ -28,14 +28,6 @@ docker-machine ssh manager-0 docker container run --rm -it --name ucp -v /var/ru
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken worker-0
 docker-machine ssh worker-0 docker swarm join --token $workerJoinToken $joinIp
 
-# worker-1
-docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken worker-1
-docker-machine ssh worker-1 docker swarm join --token $workerJoinToken $joinIp
-
-# worker-2
-docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken worker-2
-docker-machine ssh worker-2 docker swarm join --token $workerJoinToken $joinIp
-
 # dtr-0
 docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken dtr-0
 docker-machine ssh dtr-0 docker swarm join --token $workerJoinToken $joinIp
