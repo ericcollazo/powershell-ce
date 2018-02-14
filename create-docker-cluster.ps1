@@ -7,6 +7,7 @@ $apiToken = $values.do_api_token
 
 # manager-0
 docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken manager-0
+docker node update --availability drain manager-0
 $manager0ip = docker-machine ip manager-0
 
 # Initiate swarm
