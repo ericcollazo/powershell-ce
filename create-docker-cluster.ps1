@@ -36,7 +36,7 @@ docker node update --availability drain dtr-0
 
 # Install DTR
 docker-machine ssh dtr-0 docker pull docker/dtr:2.4.1
-docker-machine ssh dtr-0 docker run -it --rm docker/dtr:2.4.1 install --ucp-node worker-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
+docker-machine ssh dtr-0 docker run -it --rm docker/dtr:2.4.1 install --ucp-node dtr-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
 
 # List nodes in swarm
 docker-machine ssh manager-0 docker node ls
