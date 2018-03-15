@@ -56,10 +56,12 @@ docker node update --availability drain dtr-0
 # dtr-1
 docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken dtr-1
 docker-machine ssh dtr-1 docker swarm join --token $workerJoinToken $joinIp
+docker-machine ssh dtr-1 docker run -it --rm  docker/dtr:2.4.2 join  --ucp-node manager-0  --ucp-insecure-tls
 
 # dtr-2
 docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "2gb" --digitalocean-access-token $apiToken dtr-2
 docker-machine ssh dtr-2 docker swarm join --token $workerJoinToken $joinIp
+docker-machine ssh dtr-2 docker run -it --rm  docker/dtr:2.4.2 join  --ucp-node manager-0  --ucp-insecure-tls
 
 # Install DTR
 docker-machine ssh dtr-0 docker pull docker/dtr:2.4.2
