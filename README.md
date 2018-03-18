@@ -1,5 +1,5 @@
 # powershell-ce
-Powershell script using **docker-machine** to create a **Docker CE** swarm cluster with **UCP** on **DigitalOcean** VM's.
+Powershell script using **docker-machine** to create a **Docker** cluster with **UCP** and **DTR** on **DigitalOcean** VM's.
 1. Add a text file named **variables.txt** to the root folder.
 2. In the text file, add your DigitalOcean API key as listed below:
 
