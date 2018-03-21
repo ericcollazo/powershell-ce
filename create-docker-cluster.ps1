@@ -25,7 +25,7 @@ docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x
 docker-machine ssh dtr-0 docker swarm join --token $workerJoinToken $joinIp
 
 # Install DTR
-$dtrId = "6474722d3064"
+$dtrId = "6474722d3063"
 docker-machine ssh dtr-0 docker pull docker/dtr:2.4.2
 docker-machine ssh dtr-0 docker run -it --rm docker/dtr:2.4.2 install --replica-id $dtrId --ucp-node dtr-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
 
