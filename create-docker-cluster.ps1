@@ -20,6 +20,13 @@ $ucpPort = "2378"
 # Install UCP
 docker-machine ssh manager-0 docker container run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.6 install --host-address $manager0ip --admin-username $ucpUsr --admin-password $ucpPwd --swarm-port $ucpPort
 
+# minio-0
+$minio_access_key = "THISISTHEACCESSKEY"
+$minio_secret = "THISISTHESECRETKEY"
+docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc1" --digitalocean-size "4gb" --digitalocean-access-token $apiToken minio-0
+docker-machine ssh minio-0 docker swarm join --token $workerJoinToken $joinIp
+docker-machine ssh minio-0 docker run -d -p 9000:9000 --name minio0 -e "MINIO_ACCESS_KEY=$minio_access_key" -e "MINIO_SECRET_KEY=$minio_secret" -v /mnt/data:/data -v /mnt/config:/root/.minio minio/minio server /data
+
 # dtr-0
 docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc1" --digitalocean-size "8gb" --digitalocean-access-token $apiToken dtr-0
 docker-machine ssh dtr-0 docker swarm join --token $workerJoinToken $joinIp
