@@ -46,7 +46,7 @@ docker-machine ssh jenkins-0 apt-get install jenkins
 
 # minio-0
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "4gb" --digitalocean-access-token $apiToken minio-0
-docker-machine ssh minio-0 docker run -p 9000:9000 --name minio1 -e "MINIO_ACCESS_KEY=minioAccessKey" -e "MINIO_SECRET_KEY=minioSecretKey" -v /mnt/data:/data -v /mnt/config:/root/.minio minio/minio server /data
+docker-machine ssh minio-0 docker run -p 9000:9000 --name minio-0 -e "MINIO_ACCESS_KEY=minioAccessKey" -e "MINIO_SECRET_KEY=minioSecretKey" -v /mnt/data:/data -v /mnt/config:/root/.minio minio/minio server /data
 
 # List nodes in swarm
 docker-machine ssh manager-0 docker node ls
