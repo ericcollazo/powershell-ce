@@ -8,11 +8,11 @@ Powershell script using **docker-machine** to create a **Docker** cluster with *
 3. Using **Powershell**, execute the following command in the root folder containing the script:
 
    `.\create-docker-cluster.ps1`
-   
+
 4. To execute commands within a cluster node:
 
    `docker-machine ssh <NODE NAME>`
-   
+
 5. To take down the cluster:
 
    `.\remover-docker-cluster.ps1`
