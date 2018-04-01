@@ -43,8 +43,17 @@ docker-machine ssh minio-0 docker run -d -p 9000:9000 --name minio-0 -e "MINIO_A
 
 # jenkins-0
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "4gb" --digitalocean-access-token $apiToken jenkins-0
+<# 
+Run the following to install Jenkins...
 
-# List nodes in swarm
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+sudo usermod -a -G docker jenkins
+ #>
+ 
+ # List nodes in swarm
 docker-machine ssh manager-0 docker node ls
 
 # List docker machines
