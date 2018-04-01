@@ -51,9 +51,9 @@ sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sour
 sudo apt-get update
 sudo apt-get install jenkins
 sudo usermod -a -G docker jenkins
- #>
- 
- # List nodes in swarm
+#>
+
+# List nodes in swarm
 docker-machine ssh manager-0 docker node ls
 
 # List docker machines
