@@ -11,7 +11,7 @@ $joinIp = $manager0ip + ":2377"
 docker-machine ssh manager-0 docker swarm init --advertise-addr $manager0ip
 
 # Install UCP
-docker-machine ssh manager-0 docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.7 install --host-address $manager0ip --admin-username admin --admin-password adminadmin --swarm-port 2378
+docker-machine ssh manager-0 docker container run --rm --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:3.0.0 install --host-address $manager0ip --admin-username admin --admin-password adminadmin --swarm-port 2378
 
 # Get join tokens
 $workerJoinToken = docker-machine ssh manager-0 docker swarm join-token worker -q
@@ -21,8 +21,8 @@ docker-machine create --driver digitalocean --digitalocean-image "ubuntu-16-04-x
 docker-machine ssh dtr-0 docker swarm join --token $workerJoinToken $joinIp
 
 # Install DTR
-docker-machine ssh dtr-0 docker pull docker/dtr:2.4.2
-docker-machine ssh dtr-0 docker run --rm docker/dtr:2.4.3 install --ucp-node dtr-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
+# docker-machine ssh dtr-0 docker pull docker/dtr:2.4.2
+# docker-machine ssh dtr-0 docker run --rm docker/dtr:2.4.3 install --ucp-node dtr-0 --ucp-url https://$manager0ip --ucp-username admin --ucp-password adminadmin --ucp-insecure-tls
 
 # worker-0
 docker-machine create  --driver digitalocean --digitalocean-image "ubuntu-16-04-x64" --digitalocean-region "nyc3" --digitalocean-size "4gb" --digitalocean-access-token $apiToken worker-0
